@@ -1,12 +1,14 @@
 from datetime import datetime
+from typing import Any
 
 from django.db import transaction
+from django.db.models import QuerySet
 from django.utils.dateparse import parse_datetime
 
 from db.models import Order, Ticket, User
 
 
-def _parse_datetime(value):
+def _parse_datetime(value: Any) -> datetime:
     if isinstance(value, datetime):
         return value
 
@@ -42,7 +44,7 @@ def create_order(
     return order
 
 
-def get_orders(username: str = None):
+def get_orders(username: str = None) -> QuerySet:
     queryset = Order.objects.all()
     if username is not None:
         queryset = queryset.filter(user__username=username)
